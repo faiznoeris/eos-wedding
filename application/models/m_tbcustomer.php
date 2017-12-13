@@ -19,25 +19,46 @@ class m_tbcustomer extends CI_Model{
 		return false;
 	}
 
-	function select(){
+	function checkRegisteredUser($username){
+
+		return $this->db->query("SELECT * FROM `tbcustomer` WHERE username LIKE '%".$username."%' AND NOT pass = '-'");
 
 	}
 
 
-	function get_field($field,$field2,$data,$data2){
+	// function getCustData($idcust){
+	// 	$this->db->select('*');
+	// 	$this->db->from('tbcustomer');
+	// 	$this->db->where('idCust',$idcust);
+
+	// 	return $this->db->get();
+	// }
+
+	//login
+
+	function get_field($field,$data){
 		$this->db->select($field);
-		$this->db->from("users");
+		$this->db->from("tbcustomer");
 
-		if($field == "loggedin"){ //get loggedin value
-			$this->db->like("username", $this->db->escape_str($data));
-		}else{
-			$this->db->like($field, $this->db->escape_str($data));
-		}
+		$this->db->like($field, $this->db->escape_str($data));
 
-		if($data2 != ""){
-			$this->db->like($field, $this->db->escape_str($data));
-			$this->db->like($field2, $this->db->escape_str($data2));
+		$this->db->limit(1);
+		$res = $this->db->get();
+
+		return $res;
+	}
+
+
+	function checkPassword($field,$uname,$pass){
+
+		$this->db->select("*");
+		$this->db->from("tbcustomer");
+		if($field == "username"){
+			$this->db->like("username", $uname);
+		}else if($field == "email"){
+			$this->db->where("email", $uname);
 		}
+		$this->db->where("pass", $pass);
 
 		$this->db->limit(1);
 		$res = $this->db->get();
@@ -48,36 +69,26 @@ class m_tbcustomer extends CI_Model{
 
 	function update_login($uname, $pwd_hash){
 
-		$this->db->select("*, DATE_FORMAT(date_joined, '%d - %M - %Y') as date_joined2");
-		$this->db->from("users");
-		$this->db->like("username", $uname);
-		$this->db->like("password", $pwd_hash);
-		$this->db->limit(1);
-
-		$res = $this->db->get();
+		$res = $this->db->query("SELECT * FROM `tbcustomer` WHERE (username LIKE '%".$uname."%' OR email = '".$uname."') AND pass = '".$pwd_hash."' AND NOT pass = '-'");
 		$row = $res->row();
 
-		$this->db->set('loggedin', '1');
-		$this->db->where('id_user', $row->id_user);
+		$newdata = array(
+			'idCust'				=> $row->idCust,
+			'name'  				=> $row->firstName." ".$row->lastName,
+			'username' 				=> $row->username,
+			'pass'					=> $row->pass,
+			'kota' 					=> $row->kota,
+			'alamat' 				=> $row->alamat,
+			'telp' 					=> $row->telp,
+			'email' 				=> $row->email,
+			'optionalInformation' 	=> $row->optionalInformation,
+			'loggedin' 		=> TRUE
+		);
 
-		if($this->db->update('users')){
+		$this->session->set_userdata($newdata);
 
-			$newdata = array(
-				'id_user'		=> $row->id_user,
-				'email'			=> $row->email,
-				'user_lvl'		=> $row->user_lvl,
-				'username'  	=> $row->username,
-				'date_joined' 	=> $row->date_joined2,
-				'ava_path' 		=> $row->ava_path,
-				'loggedin' 		=> TRUE
-			);
+		return true;
 
-			$this->session->set_userdata($newdata);
-
-			return true;
-		}
-
-		return false;
 	}
 }
 ?>

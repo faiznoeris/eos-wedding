@@ -38,6 +38,10 @@ class Ordering extends MY_Controller{
 
 	}
 
+	function destroy(){
+		$this->session->sess_destroy();
+	}
+
 	function removeitem(){
 
 		$id = $this->uri->segment(3);
@@ -59,11 +63,13 @@ class Ordering extends MY_Controller{
 			$nomorhp = $this->input->post('nomorhp');
 			$email = $this->input->post('email');
 
-			$password = $this->input->post('password');
-			$password_hash = $this->encryptPassword($password);
 			$createaccount = $this->input->post('createaccount');
 
-			$additionalinfo = $this->input->post('info');
+			if(!empty($this->input->post('info'))){
+				$additionalinfo = $this->input->post('info');
+			}else{
+				$additionalinfo = "-";
+			}
 
 			$metodepembayaran = $this->input->post('metodepembayaran');
 
@@ -73,29 +79,72 @@ class Ordering extends MY_Controller{
 
 			$rowidcart = $this->uri->segment(3);
 
+
+
+
+			$dataitem = $this->cart->get_item($rowidcart);
+			$idlayanan = $this->m_tblayanan->select("one-withname",$dataitem['name'])->row()->idLayanan;
+			$datalayanan = $this->m_tblayanan->select("",$idlayanan)->row();
+
+
+
+
+
 			if($createaccount == "on"){
 
-				$data_account = array(
-					'username' => 'username',
+				if($this->m_tbcustomer->checkRegisteredUser($firstname)->num_rows() > 0){
+					redirect('login');	
+				}else{
+					$password = $this->input->post('password');
+					$password_hash = $this->encryptPassword($password);
+				}
+
+			}else{
+				$password_hash = "-";
+			}
+
+
+			$data_account = array(
+				'username' => $firstname,
+				'pass'	=>	$password_hash,
+				'firstName' => $firstname,
+				'lastName' => $lastname,
+				'kota' => $city,
+				'alamat' => $address,
+				'telp' => $nomorhp,
+				'email' => $email,
+				'optionalInformation' => $additionalinfo
+			);
+
+			if($this->isLoggedin() != true){
+				$this->m_tbcustomer->insert($data_account);	
+				$idcust = $this->m_tbcustomer->getCustLastId();
+
+
+				$sessiondata = array(
+					'idCust' => $idcust,
+					'username' => $firstname,
 					'pass'	=>	$password_hash,
-					'firstName' => $firstname,
-					'lastName' => $lastname,
+					'name' => $firstname." ".$lastname,
 					'kota' => $city,
 					'alamat' => $address,
 					'telp' => $nomorhp,
 					'email' => $email,
-					'optionalInformation' => $additionalinfo
+					'optionalInformation' => $additionalinfo,
+					'namalayanan' => $datalayanan->jenisLayanan,
+					'hargalayanan' => $datalayanan->hargaLayanan,
+					'metodepembayaran' => $metodepembayaran
 				);
 
-				$this->m_tbcustomer->insert($data_account);	
-				$idcust = $this->m_tbcustomer->getCustLastId();
+				$this->session->set_userdata($sessiondata);
 			}else{
-				$idcust = -1;
+				$session = $this->session->all_userdata();
+				$idcust = $session['idCust'];
+
+				$this->session->set_userdata('namalayanan', $datalayanan->jenisLayanan);
+				$this->session->set_userdata('hargalayanan', $datalayanan->hargaLayanan);
+				$this->session->set_userdata('metodepembayaran', $metodepembayaran);
 			}
-
-			$dataitem = $this->cart->get_item($rowidcart);
-
-			$idlayanan = $this->m_tblayanan->select("one-withname",$dataitem['name'])->row()->idLayanan;
 
 			$data_transaksi = array(
 				'idTransaksi' => $dataitem['id'],

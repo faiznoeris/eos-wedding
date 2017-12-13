@@ -3,9 +3,9 @@ class m_tblayanan extends CI_Model{
 
 	function select($kondisi,$id){
 		$this->db->select("*");
-		$this->db->from("tbLayanan");
+		$this->db->from("tblayanan");
 
-		if($kondisi = "one-withname"){
+		if($kondisi == "one-withname"){
 			$this->db->like('jenisLayanan', $id);
 		}else{
 			$this->db->where("idLayanan", $id);

@@ -91,7 +91,10 @@ class Index extends MY_Controller{
 		$data["title"]			=	$GLOBALS["webname"];
 		
 		if($this->isLoggedin() == true){
+			$session = $this->session->all_userdata();
+
 			$data["loggedin"]		=	true;
+			$data["name"] 			= 	$session["name"];
 		}else{
 			$data["loggedin"]		=	false;
 		}
@@ -111,14 +114,19 @@ class Index extends MY_Controller{
 	function login(){
 		
 		$data["title"]			=	$GLOBALS["webname"];
-		
-		if($this->isLoggedin() == true){
-			$data["loggedin"]		=	true;
-		}else{
-			$data["loggedin"]		=	false;
+
+		if(isset($_SESSION['error'])){
+			$data["error"]		=	$_SESSION['error'];
 		}
 
-		$this->load->view('v_login', $data);
+		
+		if($this->isLoggedin() == true){
+			redirect("checkout");
+		}else{
+			$this->load->view('v_login', $data);
+		}
+
+		
 
 		
 	}
@@ -126,15 +134,22 @@ class Index extends MY_Controller{
 
 	function detail_order(){
 		
-		$data["title"]			=	$GLOBALS["webname"];
-		
-		if($this->isLoggedin() == true){
-			$data["loggedin"]		=	true;
-		}else{
-			$data["loggedin"]		=	false;
-		}
+		$this->load->model(array('m_tbcustomer'));
 
-		$this->load->view('transaksi/v_detail_order', $data);
+		$session = $this->session->all_userdata();
+
+		$data["title"]			=	$GLOBALS["webname"];
+
+
+        if (isset($session['name'])){
+            $data["data_customer"] = $session;
+            $this->load->view('transaksi/v_detail_order', $data);
+        }else{
+        	redirect('');
+        }
+		
+	
+		
 
 		
 	}

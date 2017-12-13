@@ -69,3 +69,4 @@ $route['order'] = 'Index/order';
 $route['checkout'] = 'Index/checkout';
 $route['detailorder'] = 'Index/detail_order';
 $route['login'] = 'Index/login';
+$route['login/gagal'] = 'Index/login';

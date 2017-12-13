@@ -7,6 +7,5 @@ class m_tbtransaksi extends CI_Model{
 		}
 		return false;
 	}
-
 }
 ?>

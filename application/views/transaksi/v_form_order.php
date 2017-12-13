@@ -155,7 +155,7 @@
       <?php else: ?>
 
         <center>
-          <h5 class="light">Welcome <i>*namalengkap*</i></h5>
+          <h5 class="light">Welcome <i><?= $name ?></i></h5>
         </center>
 
       <?php endif; ?>
@@ -205,13 +205,13 @@
         <div class="input-field col s12 m6 offset-l3 offset-m3" style="margin-top: -20px;">
           <p>
             <label>
-              <input name="metodepembayaran" type="radio" value="direct" required />
+              <input name="metodepembayaran" type="radio" value="Direct Bank Transfer" required />
               <span>Direct Bank Transfer</span>
             </label>
           </p>
           <p>
             <label>
-              <input name="metodepembayaran" type="radio" value="cod" />
+              <input name="metodepembayaran" type="radio" value="Cash on Delivery" />
               <span>Cash on Delivery</span>
             </label>
           </p>

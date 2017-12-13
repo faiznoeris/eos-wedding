@@ -16,10 +16,10 @@ class Kontak extends MY_Controller{
 			$msg = "<b>Nama:</b> ".$nama."<br><b>Email:</b> ".$email."<br><b>Nomor HP:</b> ".$nomorhp."<br><br><b>Isi Pesan:</b> <br>".$pesan;
 			$subject = "[EOS - Kontak Kami] ".$judulpesan;
 
-			if($this->sendMail("m.faiznoeris@gmail.com",$msg,$subject)){
-				echo "MANTAP";
+			if($this->sendMail($email,$msg,$subject)){
+				redirect("#kontak");
 			}else{
-				echo "ANJING";
+				redirect("#kontak");
 			}
 
 			

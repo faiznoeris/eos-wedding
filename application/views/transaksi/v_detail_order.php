@@ -21,13 +21,6 @@
       flex: 1 0 auto;
     }
 
-    .btn-edge {
-      /*position: absolute;*/
-      right: -10px;
-      top: -5px;
-
-    }
-
   </style>
 </head>
 
@@ -120,20 +113,20 @@
 
                 <tbody>
                   <tr style="border-left: 1px solid rgba(0,0,0,0.12)!important; border-right: 1px solid rgba(0,0,0,0.12)!important;">
-                    <td style="border-right: 1px solid rgba(0,0,0,0.12)!important;">Make Up Wedding</td>
-                    <td><i>Rp. 5.000.000</i></td>
+                    <td style="border-right: 1px solid rgba(0,0,0,0.12)!important;"><?= $data_customer['namalayanan'] ?></td>
+                    <td><i>Rp. <?= number_format($data_customer['hargalayanan'], 0, ',', '.') ?></i></td>
                   </tr>
-                  <tr style="border-left: 1px solid rgba(0,0,0,0.12)!important; border-right: 1px solid rgba(0,0,0,0.12)!important;">
+                  <!-- <tr style="border-left: 1px solid rgba(0,0,0,0.12)!important; border-right: 1px solid rgba(0,0,0,0.12)!important;">
                     <td style="border-right: 1px solid rgba(0,0,0,0.12)!important;">Make Up Pesta</td>
                     <td><i>Rp. 5.000.000</i></td>
-                  </tr>
+                  </tr> -->
                   <tr style="border-right: 1px solid rgba(0,0,0,0.12)!important; border-left: 1px solid rgba(0,0,0,0.12)!important;">
                     <td class="teal white-text" style="border-right: 1px solid rgba(0,0,0,0.12)!important;"><b>Total</b></td>
-                    <td><i>Rp. 10.000.000</i></td>
+                    <td><i>Rp. <?= number_format($data_customer['hargalayanan'], 0, ',', '.') ?></i></td>
                   </tr>
                   <tr style="border-right: 1px solid rgba(0,0,0,0.12)!important; border-left: 1px solid rgba(0,0,0,0.12)!important;">
                     <td class="teal white-text" style="border-right: 1px solid rgba(0,0,0,0.12)!important;"><b>Payment Method</b></td>
-                    <td>Cash on Delivery</td>
+                    <td><?= $data_customer['metodepembayaran'] ?></td>
                   </tr>
                 </tbody>
               </table>
@@ -149,11 +142,11 @@
                 <tbody>
                   <tr style="border-top: 1px solid rgba(0,0,0,0.12)!important; border-left: 1px solid rgba(0,0,0,0.12)!important; border-right: 1px solid rgba(0,0,0,0.12)!important;">
                     <td width="30%" class="teal white-text" style="border-right: 1px solid rgba(0,0,0,0.12)!important;"><b>Email: </b></td>
-                    <td>email@email.com</td>
+                    <td><?= $data_customer['email'] ?></td>
                   </tr>
                   <tr style="border-right: 1px solid rgba(0,0,0,0.12)!important; border-left: 1px solid rgba(0,0,0,0.12)!important;">
                     <td class="teal white-text" style="border-right: 1px solid rgba(0,0,0,0.12)!important;"><b>Nama: </b></td>
-                    <td>Nama Lengkap</td>
+                    <td><?= $data_customer['name'] ?></td>
                   </tr>
                 </tbody>
               </table>
@@ -166,15 +159,15 @@
             <div class="col s12 m6 offset-l3 offset-m3 z-depth-2">
 
               <p>
-                a.n Nama Lengkap
+                a.n <?= $data_customer['name'] ?>
               </p>
 
               <p>
-               Jalan Overste Isdiman No.33, Bancarkembar, Purwokerto Utara, Bancarkembar, Purwokerto Utara, Kabupaten Banyumas, Jawa Tengah 53114
+               <?= $data_customer['alamat'] ?>
              </p>
 
              <p>
-              No. Telepon: 0812345678
+              No. Telepon: <?= $data_customer['telp'] ?>
             </p>
 
           </div>

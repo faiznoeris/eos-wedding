@@ -126,7 +126,7 @@
 
     <div class="row z-depth-2 grey lighten-5" style="padding: 10px 10px 10px 10px; width: 50%">
 
-     <form>
+     <form method="post" action="<?= base_url('Login/login') ?>">
       <br>
       <center>
         <img class="responsive-img" src="https://svn.apache.org/repos/asf/lucene.net/trunk/branding/logo/lucene-net-icon-512x256.png" style="height: 120px;">
@@ -139,17 +139,19 @@
         <div class='row'>
           <div class='input-field col s12 m8'>
             <i class="material-icons prefix">person</i>
-            <input class="validate login" type='text'/>
-            <label for='username'>Username</label>
+            <input class="validate login" type='text' id="username" name="username" required/>
+            <label for='username'>Username / Email</label>
           </div>
         </div>
         <div class="row">
           <div class='input-field col s12 m8'>
             <i class="material-icons prefix">vpn_key</i>
-            <input class="validate login" type='password'/>
+            <input class="validate login" type='password' id="password" name="password" required/>
             <label for='password'>Password</label>
             <br><br>
           </div>
+        </div>
+        <div class="row">
           <label class="left">
             <b class='red-text text-darken-2'><?php if(isset($error)){echo $error;} ?></b>
           </label>
@@ -157,8 +159,9 @@
       </div>
 
 
+
       <div class="row center-align">
-        <button class="btn waves-effect waves-light" type="submit" name="action" style="width: 50%">
+        <button class="btn waves-effect waves-light" type="submit" name="action" id="btnsubmit" style="width: 50%">
           Login
         </button>
       </div>
@@ -204,6 +207,15 @@
   $(document).ready(function(){
     $('.tooltipped').tooltip();
   });
+
+  //SET AUTOFOCUS KE PALING BAWAH KALO ADA ERROR DI REGISTER
+  $(function() {
+    var link = location.href;
+    if(link.includes("login/gagal")){
+      $("#btnsubmit").get(0).focus();
+    }
+  });
+
 
 </script>
 
