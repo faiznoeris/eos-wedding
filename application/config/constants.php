@@ -88,4 +88,3 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
  * Custom defines (GLOBAL VARIABLES)
  */
 $webname = 'EOS - Salon';
-$webiconpath = 'https://svn.apache.org/repos/asf/lucene.net/trunk/branding/logo/lucene-net-icon-512x256.png';

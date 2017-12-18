@@ -125,7 +125,7 @@
             <div class="row">
               <div class="input-field col s12 m6">
                 <i class="material-icons prefix">vpn_key</i>
-                <input disabled value="" id="disabled" type="password" class="validate">
+                <input disabled value="" id="disabled" type="password" class="validate" name="password">
                 <label for="disabled">Password</label>
               </div>
             </div>

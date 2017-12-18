@@ -5,84 +5,78 @@ class Index extends MY_Controller{
 
 	function home(){
 
+		$this->load->model(array('m_tbgalery'));
+
 		$data["title"]			=	$GLOBALS["webname"];
 		
-		if($this->isLoggedin() == true){
-			$data["loggedin"]		=	true;
-		}else{
-			$data["loggedin"]		=	false;
-		}
+		$data["data_foto"]		=	$this->m_tbgalery->select("foto")->result();
+		$data["data_video"]		=	$this->m_tbgalery->select("video")->result();
 
 		$this->load->view('main/v_home', $data);
 
 	}
 
 
-	function layanan_wedding(){
+	function layanan(){
+		$layanan = $this->uri->segment(2);
 
 		$data["title"]			=	$GLOBALS["webname"];
-		
-		if($this->isLoggedin() == true){
-			$data["loggedin"]		=	true;
-		}else{
-			$data["loggedin"]		=	false;
+
+		if(strpos($layanan, 'wedding')){
+			$this->load->view('layanan/v_wedding', $data);
+		}else if(strpos($layanan, 'pesta')){
+			$this->load->view('layanan/v_pesta', $data);
+		}else if(strpos($layanan, 'pengantin')){
+			$this->load->view('layanan/v_pengantin', $data);
+		}else if(strpos($layanan, 'wisuda')){
+			$this->load->view('layanan/v_wisuda', $data);
 		}
-
-		$this->load->view('layanan/v_wedding', $data);
-
 	}
 
-	function layanan_pesta(){
-		
-		$data["title"]			=	$GLOBALS["webname"];
-		
-		if($this->isLoggedin() == true){
-			$data["loggedin"]		=	true;
-		}else{
-			$data["loggedin"]		=	false;
-		}
-
-		$this->load->view('layanan/v_pesta', $data);
-
-	}
-
-	function layanan_pengantin(){
-
-		$data["title"]			=	$GLOBALS["webname"];
-		
-		if($this->isLoggedin() == true){
-			$data["loggedin"]		=	true;
-		}else{
-			$data["loggedin"]		=	false;
-		}
-
-		$this->load->view('layanan/v_pengantin', $data);
-		
-	}
-
-	function layanan_wisuda(){
-
-		$data["title"]			=	$GLOBALS["webname"];
-		
-		if($this->isLoggedin() == true){
-			$data["loggedin"]		=	true;
-		}else{
-			$data["loggedin"]		=	false;
-		}
-
-		$this->load->view('layanan/v_wisuda', $data);
-
-		
-	}
 
 	function order(){
 		
 		$data["title"] = $GLOBALS["webname"];
-		$data["iconpath"] = $GLOBALS["webiconpath"]; 
 
 		$this->load->view('transaksi/v_order', $data);
 
 		
+	}
+
+
+	function admindash(){
+
+		$this->load->model(array('m_tbtransaksi'));
+		
+		$data["title"] = $GLOBALS["webname"];
+
+		$data["data_transaksi"]	= $this->m_tbtransaksi->select()->result();
+
+		$session = $this->session->all_userdata();
+
+		if(!$session["admin"]){
+			redirect("");
+		}else{
+			$this->load->view('admin/v_dashboard', $data);
+		}
+		
+	}
+
+	function adminlogin(){
+		
+		$data["title"]			=	$GLOBALS["webname"];
+
+		if(isset($_SESSION['error'])){
+			$data["error"]		=	$_SESSION['error'];
+		}
+
+		$session = $this->session->all_userdata();
+
+		if(!$session["admin"]){
+			$this->load->view('admin/v_login', $data);
+		}else{
+			redirect("admin/dashboard");
+		}
 	}
 
 
@@ -141,14 +135,14 @@ class Index extends MY_Controller{
 		$data["title"]			=	$GLOBALS["webname"];
 
 
-        if (isset($session['name'])){
-            $data["data_customer"] = $session;
-            $this->load->view('transaksi/v_detail_order', $data);
-        }else{
-        	redirect('');
-        }
+		if (isset($session['name'])){
+			$data["data_customer"] = $session;
+			$this->load->view('transaksi/v_detail_order', $data);
+		}else{
+			redirect('');
+		}
 		
-	
+
 		
 
 		

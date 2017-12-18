@@ -54,19 +54,19 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
-$route['layanan/makeupwedding'] = 'Index/layanan_wedding';
-$route['layanan/makeuppesta'] = 'Index/layanan_pesta';
-$route['layanan/makeuppengantin'] = 'Index/layanan_pengantin';
-$route['layanan/makeupwisuda'] = 'Index/layanan_wisuda';
+$route['layanan/makeupwedding'] = 'Index/layanan';
+$route['layanan/makeuppesta'] = 'Index/layanan';
+$route['layanan/makeuppengantin'] = 'Index/layanan';
+$route['layanan/makeupwisuda'] = 'Index/layanan';
 
-
-$route['order'] = 'Index/order';
-// $route['layanan/makeuppesta/order'] = 'Ordering/addtocart';
-// $route['layanan/makeuppengantin/order'] = 'Ordering/addtocart';
-// $route['layanan/makeupwisuda/order'] = 'Ordering/addtocart';
-
-
-$route['checkout'] = 'Index/checkout';
-$route['detailorder'] = 'Index/detail_order';
 $route['login'] = 'Index/login';
 $route['login/gagal'] = 'Index/login';
+
+$route['order'] = 'Index/order';
+$route['checkout'] = 'Index/checkout';
+$route['detailorder'] = 'Index/detail_order';
+
+$route['admin/dashboard'] = 'Index/admindash';
+$route['admin/login'] = 'Index/adminlogin';
+
+
